@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mysite</title>
+        <style>
+            label {
+                display: block;
+                margin-bottom: 10px;
+            }
+            input[type="text"],
+            input[type="email"],
+            input[type="file"] {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 20px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+            input[type="submit"],
+            input[type="button"] {
+                background-color: #4caf50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                float: right;
+            }
+            input[type="submit"]:hover,
+            input[type="button"]:hover {
+                background-color: #45a049;
+            }
+            input[type="file"] {
+                border: none;
+            }
+            #photo-preview {
+                max-width: 200px;
+                margin-bottom: 20px;
+            }
+        </style>
+        <script>
+            function clearForm() {
+                document.getElementById("myForm").reset();
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Form</h1>
+        <form id="myForm" method="post" action="process_form.php" enctype="multipart/form-data">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required />
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required />
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" required></textarea>
+
+            <label for="photo">Photo:</label>
+            <input type="file" id="photo" name="photo" accept="image/*" onchange="previewPhoto(event)" required />
+            <div id="photo-preview"></div>
+
+            <input type="button" value="Cancel" onclick="clearForm()" />
+            <input type="submit" value="Submit" />
+        </form>
+
+        <script>
+            function previewPhoto(event) {
+                var preview = document.getElementById("photo-preview");
+                var file = event.target.files[0];
+                var reader = new FileReader();
+
+                reader.onloadend = function () {
+                    preview.innerHTML = '<img src="' + reader.result + '">';
+                };
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.innerHTML = "";
+                }
+            }
+        </script>
+    </body>
+</html>
