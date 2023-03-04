@@ -35,4 +35,5 @@ foreach($age as $x => $val) {
   echo "$x = $val<br>";
 }
 echo $age["Peter"];
+print_r($age);
 ?>
