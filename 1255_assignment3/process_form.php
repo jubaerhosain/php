@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 // Define variables and initialize with empty values
 $firstName = $lastName = $email = $address = $photo = "";
 $firstNameErr = $lastNameErr = $emailErr = $addressErr = $photoErr = "";
@@ -12,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $firstName = test_input($_POST["firstName"]);
         // Check if name only contains letters and whitespace
-        if (!preg_match("/^[a-zA-Z ]*$/", $firstName)) {
+        if (!preg_match("/^[a-zA-Z .]*$/", $firstName)) {
             $firstNameErr = "Only letters and white space allowed";
         }
     }
@@ -77,8 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // If there are no errors, redirect to confirmation page
     if (empty($firstNameErr) && empty($lastNameErr) && empty($emailErr) && empty($addressErr) && empty($photoErr)) {
-        // header("Location: process_form.php?firstName=$firstName&lastName=$lastName&email=$email&address=$address&photo=$photo");
-        echo "<h1>Hello</h1>";
+        // no error found
     } else {
         echo $photoErr . "<br>";
         echo $targetFile . "<br>";
@@ -97,7 +99,6 @@ function test_input($data)
     $data = htmlspecialchars($data);
     return $data;
 }
-
 ?>
 
 
@@ -107,14 +108,45 @@ function test_input($data)
 
 <head>
     <title>Mysite</title>
+    <style>
+        #myDiv {
+            width: 70%;
+            margin: auto;
+            display: flex;
+        }
+
+        #left,
+        #right {
+            display: inline-block;
+            margin: 0px 5px;
+            width: 50%;
+            height: 150px;
+        }
+
+        #right img {
+            width: 150px;
+            height: 150px;
+            margin: auto; 
+            text-align: center;
+            border-radius: 50%;
+            box-sizing: border-box; 
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>My Profile</h1>
-    <p><strong>Name:</strong> <?php echo htmlspecialchars($firstName) . " " . htmlspecialchars($lastName); ?></p>
-    <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
-    <p><strong>Address:</strong> <?php echo htmlspecialchars($address); ?></p>
-    <p><strong>Photo:</strong> <img src="<?php echo $targetFile; ?>" alt="Uploaded image"> </p>
+    <div id="myDiv">
+        <div id="left">
+            <p><strong> Name:</strong> <?php echo htmlspecialchars($firstName) . " " . htmlspecialchars($lastName); ?></p>
+            <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
+            <p><strong>Address:</strong> <?php echo htmlspecialchars($address); ?></p>
+        </div>
+        <div id="right">
+            <img src="<?php echo htmlspecialchars($targetFile); ?>" alt="Uploaded image">
+        </div>
+    </div>
 
 </body>
 
